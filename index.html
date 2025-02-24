@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estacionamento Rotativo</title>
+    
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        input, button { margin: 5px; padding: 8px; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+    <h2>Estacionamento Rotativo</h2>
+
+    <input type="text" id="placa" placeholder="Placa do veículo">
+    <input type="text" id="modelo" placeholder="Modelo do veículo">
+    <button onclick="registrarEntrada()">Registrar Entrada</button>
+
+    <h3>Veículos Estacionados</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Modelo</th>
+                <th>Entrada</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-veiculos"></tbody>
+    </table>
+
+    <script type="module">
+        // Importando Firebase 
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Configuração do Firebase 
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVqZbmF-5EjESHnkrcOdPcqhEi7AP5Hec",
+            authDomain: "estacionamento-friendely.firebaseapp.com",
+            projectId: "estacionamento-friendely",
+            storageBucket: "estacionamento-friendely.appspot.com",  
+            messagingSenderId: "470983133846",
+            appId: "1:470983133846:web:a6f6b4de3b7f6866d310b7",
+            measurementId: "G-M5DBBB2SM1"
+        };
+
+        // Inicializar Firebase e Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Tornando as funções globais (sem módulo)
+        window.registrarEntrada = async function() {
+            const placa = document.getElementById("placa").value;
+            const modelo = document.getElementById("modelo").value;
+            const horario = new Date().toLocaleString();
+
+            if (placa === "" || modelo === "") {
+                alert("Preencha todos os campos!");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "veiculos"), {
+                    placa: placa,
+                    modelo: modelo,
+                    entrada: horario
+                });
+
+                document.getElementById("placa").value = "";
+                document.getElementById("modelo").value = "";
+                carregarVeiculos();
+            } catch (error) {
+                console.error("Erro ao adicionar veículo:", error);
+            }
+        }
+
+        window.carregarVeiculos = async function() {
+            const tabela = document.getElementById("tabela-veiculos");
+            tabela.innerHTML = "";
+
+            try {
+                const querySnapshot = await getDocs(collection(db, "veiculos"));
+                querySnapshot.forEach((docSnapshot) => {
+                    const data = docSnapshot.data();
+                    const linha = `
+                        <tr>
+                            <td>${data.placa}</td>
+                            <td>${data.modelo}</td>
+                            <td>${data.entrada}</td>
+                            <td><button onclick="registrarSaida('${docSnapshot.id}')">Registrar Saída</button></td>
+                        </tr>
+                    `;
+                    tabela.innerHTML += linha;
+                });
+            } catch (error) {
+                console.error("Erro ao carregar veículos:", error);
+            }
+        }
+
+        window.registrarSaida = async function(id) {
+            try {
+                await deleteDoc(doc(db, "veiculos", id));
+                carregarVeiculos();
+            } catch (error) {
+                console.error("Erro ao remover veículo:", error);
+            }
+        }
+
+        // Carregar os veículos ao iniciar
+        carregarVeiculos();
+    </script>
+
+</body>
+</html>
