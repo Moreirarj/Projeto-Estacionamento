@@ -1,0 +1,54 @@
+PROJETO ESTACIONAMENTO ROTATIVO COM GHERKIN
+
+CENARIO 1
+
+Funcionalidade: Registro de veículos no estacionamento
+
+  Cenário: Inclusão de um novo veículo no sistema
+    Dado que o usuário acessa o sistema de estacionamento
+    Quando ele informa a placa "ABC-1234" e o modelo "Toyota Corolla"
+    E confirma o registro do veículo
+    Então o sistema deve exibir uma mensagem de sucesso "Veículo registrado com sucesso"
+    E o veículo deve estar salvo na lista de veículos registrados
+
+CENARIO 2
+
+Funcionalidade: Exclusão de veículo do registro do sistema
+
+Cenário: Exclusão de um veículo do sistema  
+  Dado que há um veículo registrado com a placa "ABC-1234" e o modelo "Toyota Corolla"  
+  Quando o usuário seleciona o veículo e confirma a exclusão  
+  Então o sistema deve exibir uma mensagem de sucesso "Veículo removido com sucesso"  
+  E o veículo não deve mais estar na lista de veículos registrados  
+
+
+CENARIO 3  
+
+Funcionalidade: Tentativa de inclusão com campos vazios
+
+Cenário: Inclusão com campos vazios  
+  Dado que o usuário acessa o sistema de estacionamento  
+  Quando ele tenta registrar um veículo sem preencher todos os campos  
+  Então o sistema deve exibir a mensagem de erro "Preencha todos os campos!"  
+  E o veículo não deve ser registrado  
+
+CENARIO 4 
+
+Funcionalidade: Atualização do sistema após inclusão de um veículo
+
+Cenário: Atualização da lista de veículos após inclusão  
+  Dado que o usuário acessa o sistema de estacionamento  
+  Quando ele registra um novo veículo com a placa "XYZ-5678" e o modelo "Honda Civic"  
+  Então o sistema deve exibir uma mensagem de sucesso "Veículo registrado com sucesso"  
+  E a lista de veículos registrados deve ser atualizada com o novo veículo 
+
+CENARIO 5  
+
+Funcionalidade: Não permitir duplicidade de modelo e placa
+
+Cenário:Impedir a inclusão de veículos com placa repetida  
+  Dado que há um veículo registrado com a placa "ABC-1234" e o modelo "Toyota Corolla"  
+  Quando o usuário tenta registrar um novo veículo com a mesma placa "ABC-1234" e qualquer modelo  
+  Então o sistema deve exibir a mensagem de erro "Veículo já registrado com esta placa!"  
+  E o veículo não deve ser adicionado novamente na lista de veículos registrados  
+
