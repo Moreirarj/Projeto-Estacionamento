@@ -1,7 +1,7 @@
 // Teste de Registro de Entrada de Veículo
 describe('Registro de Entrada de Veículo', () => {
     beforeEach(() => {
-        cy.visit('http://127.0.0.1:5500/');
+        cy.visit('http://127.0.0.1:5500/cypress/e2e/');
     });
 
     it('Deve permitir registrar a entrada de um veículo', () => {

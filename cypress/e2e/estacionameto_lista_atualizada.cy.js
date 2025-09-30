@@ -1,6 +1,6 @@
 describe('Persistência de Dados', () => {
     beforeEach(() => {
-        cy.visit('http://127.0.0.1:5500/');
+        cy.visit('http://127.0.0.1:5500/cypress/e2e/');
     });
 
     it('Deve manter os veículos cadastrados após recarregar a página', () => {
