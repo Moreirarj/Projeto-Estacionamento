@@ -1,6 +1,6 @@
 describe('Validação de Formulário', () => {
     beforeEach(() => {
-        cy.visit('http://127.0.0.1:5500/cypress/e2e/');
+        cy.visit('/');
     });
 
     it('Não deve permitir registrar entrada sem preencher os campos', () => {

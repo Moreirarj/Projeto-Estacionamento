@@ -1,12 +1,13 @@
 // Teste de Registro de Entrada de Veículo
 describe('Registro de Entrada de Veículo', () => {
     beforeEach(() => {
-        cy.visit('http://127.0.0.1:5500/cypress/e2e/');
+        cy.visit('/');
     });
 
     it('Deve permitir registrar a entrada de um veículo', () => {
-        cy.get('#placa').type('ABC-1234'); // Digita a placa
-        cy.get('#modelo').type('Fusca'); // Digita o modelo
+        cy.get('#placaEntrada').type('ABC-1234'); // Digita a placa
+        cy.get('#modeloEntrada').type('Fusca'); // Digita o modelo
+        cy.get('#corEntrada').type('Preto'); // Digita a cor
         cy.contains('Registrar Entrada').click(); // Clica no botão
 
         // Verifica se o veículo foi adicionado na tabela

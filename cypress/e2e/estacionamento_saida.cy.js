@@ -1,6 +1,6 @@
 describe('Registro de Saída de Veículo', () => {
     beforeEach(() => {
-        cy.visit('http://127.0.0.1:5500/cypress/e2e/');
+        cy.visit('/');
     });
 
     it('Deve permitir registrar a saída de um veículo', () => {
